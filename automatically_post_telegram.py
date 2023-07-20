@@ -13,7 +13,8 @@ def automatically_post_telegram(bot_token, chat_id, folder_to_post, frequency):
             images.append(os.path.join(address, name))
     while True:
         for image in images:
-            publish_to_telegram(bot_token, chat_id, open(image, 'rb'))
+            with open(image, 'rb', encoding='utf-8') as image_file:
+                publish_to_telegram(bot_token, chat_id, image_file)
             time.sleep(int(frequency)*3600)
         random.shuffle(images)
 
