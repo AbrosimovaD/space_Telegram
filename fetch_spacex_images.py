@@ -8,11 +8,7 @@ from publish_to_telegram import publish_to_telegram
 
 
 def fetch_spacex_last_launch(bot_api, chat_id, launch_id, path_to_load):
-    url = 'https://api.spacexdata.com/v5/launches/'
-    if launch_id=='':
-        url += 'latest'
-    else:
-        url = f'{url}{launch_id}'
+    url = f'https://api.spacexdata.com/v5/launches/{launch_id}'
     headers = {'Accept': 'application/json'}
     response = requests.get(url, headers = headers)
     response.raise_for_status()
@@ -24,7 +20,7 @@ def fetch_spacex_last_launch(bot_api, chat_id, launch_id, path_to_load):
 
 def main():
     parser = argparse.ArgumentParser(description='Load images from SpaceX')
-    parser.add_argument('--launch_id', type=str, default = '', help='provide an id')
+    parser.add_argument('--launch_id', type=str, default = 'latest', help='provide an id')
     parser.add_argument('-p', '--path_to_load', type=str, default = 'images', help='Path to load images')
     arguments = parser.parse_args()
     path_to_load = arguments.path_to_load
