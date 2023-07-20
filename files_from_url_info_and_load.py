@@ -4,9 +4,9 @@ from os import path
 from urllib import parse
 
 
-def download_image(url, path, filename):
+def download_image(url, params = '', path, filename):
     Path(path).mkdir(parents=True, exist_ok=True)
-    response = requests.get(url)
+    response = requests.get(url, params)
     response.raise_for_status()
     with open(f'{path}/{filename}', 'wb') as file:
         file.write(response.content)
