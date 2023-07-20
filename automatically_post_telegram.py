@@ -11,11 +11,11 @@ def automatically_post_telegram(bot_api, chat_id, folder_to_post, frequency):
     for address, dirs, files in os.walk(folder_to_post):
         for name in files:
             images.append(os.path.join(address, name))
-        while True:
-            for image in images:
-                publish_to_telegram(bot_api, chat_id, open(image, 'rb'))
-                time.sleep(int(frequency)*3600)
-            random.shuffle(images)
+    while True:
+        for image in images:
+            publish_to_telegram(bot_api, chat_id, open(image, 'rb'))
+            time.sleep(int(frequency)*3600)
+        random.shuffle(images)
 
 
 def main():
