@@ -1,6 +1,6 @@
 import requests
 from datetime import datetime as dt
-from files_from_url_info_and_load import image_load, file_info
+from files_from_url_info_and_load import download_image, get_file_name_and_type
 from dotenv import load_dotenv
 import argparse
 import os
@@ -17,7 +17,7 @@ def fetch_nasa_epic(api_key, number_of_photo, path_to_load):
         image = photo_info['image']
         image_date = dt.strftime(dt.strptime(photo_info['date'], "%Y-%m-%d %H:%M:%S"), "%Y/%m/%d")
         image_url = epic_url.format('archive',f'/{image_date}/{image_type}/{image}.{image_type}?api_key={api_key}')
-        image_load(image_url, path_to_load, f'{image}.{image_type}')
+        download_image(image_url, path_to_load, f'{image}.{image_type}')
         if photo_number == number_of_photo:
             break
 
