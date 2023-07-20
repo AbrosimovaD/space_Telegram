@@ -35,8 +35,9 @@ def main():
     parser = argparse.ArgumentParser(description='Load images from NASA EPIC')
     parser.add_argument('--numb', type=int, default = 1, help='Number of photos to load')
     parser.add_argument('-p', '--path_to_load', type=str, default = 'images', help='Path to load images')    
-    numb = parser.parse_args().numb
-    path_to_load = parser.parse_args().path_to_load
+    arguments = parser.parse_args()
+    numb = arguments.numb
+    path_to_load = arguments.path_to_load
     fetch_nasa_epic(bot_api, chat_id, api_key, numb, path_to_load )   
 
 
