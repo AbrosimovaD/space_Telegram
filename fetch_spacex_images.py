@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import requests
 import argparse
-from files_from_url_info_and_load import image_load, file_info
+from files_from_url_info_and_load import download_image, get_file_name_and_type
 
 
 def fetch_spacex_last_launch(launch_id, path_to_load):
@@ -12,7 +12,7 @@ def fetch_spacex_last_launch(launch_id, path_to_load):
     response.raise_for_status()
     photos = response.json()['links']['flickr']['original']
     for link in photos:
-        image_load(link, path_to_load, file_info(link)['file_name'])  
+        download_image(link, path_to_load, get_file_name_and_type(link)['file_name'])  
 
 
 def main():
