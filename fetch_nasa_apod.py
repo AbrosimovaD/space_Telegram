@@ -2,7 +2,7 @@ import requests
 import os
 from dotenv import load_dotenv
 import argparse
-from files_from_url_info_and_load import image_load, file_info
+from files_from_url_info_and_load import download_image, get_file_name_and_type
 from publish_to_telegram import publish_to_telegram
 
 
@@ -14,7 +14,7 @@ def fetch_nasa_apod(api_key, number_of_images, path_to_load):
     response.raise_for_status()
     for photo_number, launch in enumerate(response.json()):
         link = launch['url']
-        image_load(link, path_to_load, file_info(link)['file_name'])
+        download_image(link, path_to_load, get_file_name_and_type(link)['file_name'])
 
 
 def main():
