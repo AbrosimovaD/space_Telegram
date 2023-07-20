@@ -8,22 +8,22 @@ import argparse
 import os
 
 
-def fetch_nasa_epic(bot_api, chat_id, api_key, n, path_to_load):
+def fetch_nasa_epic(bot_api, chat_id, api_key, number_of_photo, path_to_load):
     epic_url = 'https://api.nasa.gov/EPIC/{}/natural{}'
     image_type = 'png'
     headers = {'Accept': 'application/json'}
     params = {'api_key': api_key}
     response = requests.get(epic_url.format('api',''), headers = headers, params = params)
     response.raise_for_status()
-    numb_to_post = random.randint(0, n)    
-    for i, info in enumerate(response.json()):
-        image = info['image']
-        image_date = dt.strftime(dt.strptime(info['date'], "%Y-%m-%d %H:%M:%S"), "%Y/%m/%d")
+    numb_to_post = random.randint(0, number_of_photo)    
+    for photo_number, photo_info in enumerate(response.json()):
+        image = photo_info['image']
+        image_date = dt.strftime(dt.strptime(photo_info['date'], "%Y-%m-%d %H:%M:%S"), "%Y/%m/%d")
         image_url = epic_url.format('archive',f'/{image_date}/{image_type}/{image}.{image_type}?api_key={api_key}')
         image_load(image_url, path_to_load, f'{image}.{image_type}')
-        if i==numb_to_post:
+        if photo_number==numb_to_post:
         	publish_to_telegram(bot_api, chat_id, image_url)
-        if i == n:
+        if photo_number == number_of_photo:
             break
 
 
