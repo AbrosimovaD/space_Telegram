@@ -2,23 +2,19 @@ import requests
 import os
 from dotenv import load_dotenv
 import argparse
-import random
 from files_from_url_info_and_load import image_load, file_info
 from publish_to_telegram import publish_to_telegram
 
 
-def fetch_nasa_apod(bot_api, chat_id, api_key, number_of_images, path_to_load ):
+def fetch_nasa_apod(api_key, number_of_images, path_to_load):
     apod_url = 'https://api.nasa.gov/planetary/apod'
     headers = {'Accept': 'application/json'}
     params = {'count': number_of_images, 'api_key': api_key}
     response = requests.get(apod_url, headers = headers, params = params)
     response.raise_for_status()
-    numb_to_post = random.randint(0, number_of_images)
     for photo_number, launch in enumerate(response.json()):
         link = launch['url']
         image_load(link, path_to_load, file_info(link)['file_name'])
-        if photo_number==numb_to_post:
-            publish_to_telegram(bot_api, chat_id, link)
 
 
 def main():
@@ -32,7 +28,7 @@ def main():
     arguments = parser.parse_args()
     numb = arguments.numb
     path_to_load = arguments.path_to_load
-    fetch_nasa_apod(bot_api, chat_id, api_key, numb, path_to_load)
+    fetch_nasa_apod(api_key, numb, path_to_load)
 
 
 if __name__ == '__main__':
