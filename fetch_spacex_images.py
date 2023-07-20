@@ -16,11 +16,9 @@ def fetch_spacex_last_launch(bot_api, chat_id, launch_id, path_to_load):
     headers = {'Accept': 'application/json'}
     response = requests.get(url, headers = headers)
     response.raise_for_status()
-    i = 0
     photos = response.json()['links']['flickr']['original']
     for link in photos:
-        image_load(link, path_to_load, file_info(link)['file_name'])
-        i+=1     
+        image_load(link, path_to_load, file_info(link)['file_name'])  
     publish_to_telegram(bot_api, chat_id, photos[random.randint(0, len(photos))])
 
 
