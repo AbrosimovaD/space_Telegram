@@ -1,8 +1,6 @@
 import requests
-import random
 from datetime import datetime as dt
 from files_from_url_info_and_load import image_load, file_info
-from publish_to_telegram import publish_to_telegram
 from dotenv import load_dotenv
 import argparse
 import os
@@ -27,8 +25,6 @@ def fetch_nasa_epic(api_key, number_of_photo, path_to_load):
 def main():
     load_dotenv()
     api_key = os.environ['NASA_KEY']
-    telegram_bot_token = os.environ['TELEGRAM_BOT_KEY']
-    chat_id = os.environ['TELEGRAM_CHAT_ID']
     parser = argparse.ArgumentParser(description='Load images from NASA EPIC')
     parser.add_argument('--numb', type=int, default = 1, help='Number of photos to load')
     parser.add_argument('-p', '--path_to_load', type=str, default = 'images', help='Path to load images')    
