@@ -8,21 +8,18 @@ import argparse
 import os
 
 
-def fetch_nasa_epic(bot_api, chat_id, api_key, number_of_photo, path_to_load):
+def fetch_nasa_epic(api_key, number_of_photo, path_to_load):
     epic_url = 'https://api.nasa.gov/EPIC/{}/natural{}'
     image_type = 'png'
     headers = {'Accept': 'application/json'}
     params = {'api_key': api_key}
     response = requests.get(epic_url.format('api',''), headers = headers, params = params)
-    response.raise_for_status()
-    numb_to_post = random.randint(0, number_of_photo)    
+    response.raise_for_status()  
     for photo_number, photo_info in enumerate(response.json()):
         image = photo_info['image']
         image_date = dt.strftime(dt.strptime(photo_info['date'], "%Y-%m-%d %H:%M:%S"), "%Y/%m/%d")
         image_url = epic_url.format('archive',f'/{image_date}/{image_type}/{image}.{image_type}?api_key={api_key}')
         image_load(image_url, path_to_load, f'{image}.{image_type}')
-        if photo_number==numb_to_post:
-        	publish_to_telegram(bot_api, chat_id, image_url)
         if photo_number == number_of_photo:
             break
 
@@ -30,7 +27,7 @@ def fetch_nasa_epic(bot_api, chat_id, api_key, number_of_photo, path_to_load):
 def main():
     load_dotenv()
     api_key = os.environ['NASA_KEY']
-    bot_api = os.environ['TELEGRAM_BOT_KEY']
+    telegram_bot_token = os.environ['TELEGRAM_BOT_KEY']
     chat_id = os.environ['TELEGRAM_CHAT_ID']
     parser = argparse.ArgumentParser(description='Load images from NASA EPIC')
     parser.add_argument('--numb', type=int, default = 1, help='Number of photos to load')
@@ -38,7 +35,7 @@ def main():
     arguments = parser.parse_args()
     numb = arguments.numb
     path_to_load = arguments.path_to_load
-    fetch_nasa_epic(bot_api, chat_id, api_key, numb, path_to_load )   
+    fetch_nasa_epic(api_key, numb, path_to_load)
 
 
 if __name__ == '__main__':
