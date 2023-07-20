@@ -7,13 +7,13 @@ from files_from_url_info_and_load import image_load, file_info
 from publish_to_telegram import publish_to_telegram
 
 
-def fetch_nasa_apod(bot_api, chat_id, api_key, n, path_to_load ):
+def fetch_nasa_apod(bot_api, chat_id, api_key, number_of_images, path_to_load ):
     apod_url = 'https://api.nasa.gov/planetary/apod'
     headers = {'Accept': 'application/json'}
-    params = {'count': n, 'api_key': api_key}
+    params = {'count': number_of_images, 'api_key': api_key}
     response = requests.get(apod_url, headers = headers, params = params)
     response.raise_for_status()
-    numb_to_post = random.randint(0, n)
+    numb_to_post = random.randint(0, number_of_images)
     for i, launch in enumerate(response.json()):
         link = launch['url']
         image_load(link, path_to_load, file_info(link)['file_name'])
