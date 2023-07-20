@@ -14,10 +14,10 @@ def fetch_nasa_apod(bot_api, chat_id, api_key, number_of_images, path_to_load ):
     response = requests.get(apod_url, headers = headers, params = params)
     response.raise_for_status()
     numb_to_post = random.randint(0, number_of_images)
-    for i, launch in enumerate(response.json()):
+    for photo_number, launch in enumerate(response.json()):
         link = launch['url']
         image_load(link, path_to_load, file_info(link)['file_name'])
-        if i==numb_to_post:
+        if photo_number==numb_to_post:
             publish_to_telegram(bot_api, chat_id, link)
 
 
