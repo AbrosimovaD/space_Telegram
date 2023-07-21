@@ -13,12 +13,12 @@ def fetch_nasa_epic(api_key, number_of_photo, path_to_load):
     params = {'api_key': api_key}
     response = requests.get(epic_url.format('api',''), headers = headers, params = params)
     response.raise_for_status()  
-    for photo_number, photo_info in enumerate(response.json()):
+    for current_number, photo_info in enumerate(response.json()):
         image = photo_info['image']
         image_date = dt.strftime(dt.strptime(photo_info['date'], "%Y-%m-%d %H:%M:%S"), "%Y/%m/%d")
         image_url = epic_url.format('archive',f'/{image_date}/{image_type}/{image}.{image_type}')
         download_image(image_url, params, path_to_load, f'{image}.{image_type}')
-        if photo_number == number_of_photo:
+        if current_number == number_of_photo:
             break
 
 
