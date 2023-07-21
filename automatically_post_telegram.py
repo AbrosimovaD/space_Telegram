@@ -1,20 +1,21 @@
 import time
 import os.path
-from publish_to_telegram import publish_to_telegram 
 import argparse
 import random
 from dotenv import load_dotenv
+import telegram
 
 
 def automatically_post_telegram(bot_token, chat_id, folder_to_post, frequency):
     images=[]
+    bot = telegram.Bot(token=bot_token)
     for address, dirs, files in os.walk(folder_to_post):
         for name in files:
             images.append(os.path.join(address, name))
     while True:
         for image in images:
-            with open(image, 'rb', encoding='utf-8') as image_file:
-                publish_to_telegram(bot_token, chat_id, image_file)
+            with open(image, 'rb') as image_file:
+                bot.send_photo(chat_id=chat_id, photo=image_file)
             time.sleep(int(frequency)*3600)
         random.shuffle(images)
 
