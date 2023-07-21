@@ -20,8 +20,6 @@ def fetch_nasa_apod(api_key, number_of_images, path_to_load):
 def main():
     load_dotenv()
     api_key = os.environ['NASA_KEY']
-    bot_api = os.environ['TELEGRAM_BOT_KEY']
-    chat_id = os.environ['TELEGRAM_CHAT_ID']
     parser = argparse.ArgumentParser(description='Load images from NASA APOD')
     parser.add_argument('-n', '--numb', type=int, default = 1,  help='Number of photos to load')
     parser.add_argument('-p', '--path_to_load', type=str, default = 'images', help='Path to load images')    
